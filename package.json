@@ -52,7 +52,7 @@
     "keypress": "^0.2.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "nanohtml": "^1.2.4",
+    "nanohtml": "^1.7.0",
     "nanologger": "^2.0.0",
     "nanoraf": "^3.0.1",
     "nanotiming": "^7.2.0",

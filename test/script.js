@@ -258,3 +258,34 @@ tape('envify in watch mode', function (assert) {
     compiler.graph.removeListener('change', next)
   }
 })
+
+tape('apply nanohtml transform to scripts transpiled from typescript with esmoduleinterop', function (assert) {
+  assert.plan(3)
+
+  var file = `
+      "use strict";
+      var __importDefault = (this && this.__importDefault) || function (mod) {
+          return (mod && mod.__esModule) ? mod : { "default": mod };
+      };
+      Object.defineProperty(exports, "__esModule", { value: true });
+      const choo_1 = __importDefault(require("choo"));
+      const html_1 = __importDefault(require("choo/html"));
+      const app = new choo_1.default();
+      app.route('/', function () {
+          return html_1.default \`<body>meow</body>\`;
+      });
+      module.exports = app.mount('body');
+    `
+
+  var tmpDir = tmp.dirSync({ dir: path.join(__dirname, '../tmp'), unsafeCleanup: true })
+  assert.on('end', tmpDir.removeCallback)
+  fs.writeFileSync(path.join(tmpDir.name, 'index.js'), file)
+
+  var compiler = bankai(tmpDir.name, { watch: false })
+  compiler.scripts('bundle.js', function (err, res) {
+    assert.ifError(err, 'no err bundling scripts')
+    var body = res.buffer.toString('utf8')
+    assert.equal(body.indexOf('html_1.default'), -1, 'choo/html is not used')
+    assert.equal(body.indexOf('<body>meow</body>'), -1, 'HTML string is tranformed')
+  })
+})
