@@ -19,7 +19,7 @@ var USAGE = `
 
   Options:
 
-    -d, --debug       output lots of logs
+    -d, --debug       start node debugger
     -h, --help        print usage
     -q, --quiet       don't output any logs
     -v, --version     print version
@@ -102,7 +102,8 @@ var argv = minimist(process.argv.slice(2), {
     help: 'h',
     quiet: 'q',
     version: 'v',
-    base: 'b'
+    base: 'b',
+    debug: 'd'
   },
   boolean: [
     'help',
@@ -119,6 +120,11 @@ var argv = minimist(process.argv.slice(2), {
     if (!path.isAbsolute(entry)) entry = path.join(process.cwd(), entry)
   } else {
     entry = process.cwd()
+  }
+
+  if (argv.debug) {
+    if (typeof argv.debug === 'number') process.debugPort = argv.debug
+    process.kill(process.pid, 'SIGUSR1')
   }
 
   if (argv.help) {

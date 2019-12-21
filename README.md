@@ -26,7 +26,7 @@ a project setup from scratch :sparkles:.
 
   Options:
 
-    -d, --debug       output lots of logs
+    -d, --debug       start node debugger
     -h, --help        print usage
     -q, --quiet       don't output any logs
     -v, --version     print version
