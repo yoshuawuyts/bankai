@@ -26,6 +26,7 @@ a project setup from scratch :sparkles:.
 
   Options:
 
+    -b, --base        prepend a base URL to assets
     -d, --debug       output lots of logs
     -h, --help        print usage
     -q, --quiet       don't output any logs
@@ -41,6 +42,9 @@ a project setup from scratch :sparkles:.
 
     Compile all files in the project to disk
     $ bankai build index.js
+
+    Compile and change the default output directory to docs/
+    $ bankai build index.js docs
 
   Running into trouble? Feel free to file an issue:
   https://github.com/choojs/bankai/issues/new
